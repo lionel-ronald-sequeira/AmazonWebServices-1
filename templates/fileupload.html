@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Upload</title>
+</head>
+<body>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message=="Not allowed" %}
+                        <span>{{ message }}</span>
+                    {% else %}
+                        <span>{{ message }}</span>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="fileToUpload" id="fileToUpload">
+        <input type="submit" name="Upload">
+    </form>
+        <br>
+        <a href="/logout">Logout</a>
+        <table border="1">
+            <tr>
+                <th>Filename</th>
+                <th>Image</th>
+                <th>Action</th>
+            </tr>
+            {% for file in files %}
+                <tr>
+                    <td>{{ file['file_name'] }}</td>
+                    <td><img src="{{ file['file_image'] }}" width="60" height="60"></td>
+                    <td><a href="/delete/{{file['file_name']}}">Delete</a>&nbsp;|&nbsp;<a href="/download/{{file['file_name']}}">Download</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+</body>
+</html>
